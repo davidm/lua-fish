@@ -58,10 +58,10 @@ check('==', sast[[f['g'](x)]], nosp[[
   {tag="Block",{tag="Call",{tag="Index",{tag="Id","f"},{tag="String","g"} },
         {tag="ExpList",{tag="Id","x"} } } }]])
 check('==', sast[[f:g(x)]], nosp[[
-  {tag="Block",{tag="ColonCall",{tag="Id","f"},{tag="String","g"},
+  {tag="Block",{tag="Invoke",{tag="Id","f"},{tag="String","g"},
         {tag="ExpList",{tag="Id","x"} } } }]])
 check('==', sast[[f.g:h(x)]], nosp[[
-  {tag="Block",{tag="ColonCall",
+  {tag="Block",{tag="Invoke",
         {tag="Index",{tag="Id","f"},{tag="String","g"} },{tag="String","h"},
         {tag="ExpList",{tag="Id","x"} } } }]])
 check('==', sast[[f(x)(y)]], nosp[[
@@ -72,7 +72,7 @@ check('==', sast[[f(x)(y)]], nosp[[
 ]])
 check('==', sast[[f.x(y)[z+v]:w{2}]], nosp[[
   {tag="Block",
-    {tag="ColonCall",
+    {tag="Invoke",
       {tag="Index",
         {tag="Call",
           {tag="Index",{tag="Id","f"},{tag="String","x"} },

@@ -198,12 +198,12 @@ local function build_grammar(self)
     Index = self.handle_index,
     IndexShort = self.handle_indexshort,
     Call = self.handle_call,
-    ColonCall = self.handle_coloncall
+    Invoke = self.handle_invoke
   }
   local function accum(a, pos, op, b, ...)
     if op == nil then
       return a
-    elseif op == "ColonCall" then
+    elseif op == "Invoke" then
       return accum(handle[op](pos, op, a, b, select(1, ...)), select(2, ...))
     else
       return accum((handle[op] or self.handle_binop)(pos, op, a, b), ...)
@@ -368,7 +368,7 @@ local function build_grammar(self)
   --modified
   grammar.postfixcall =
     C2'Call' * V'args' +
-    C2'ColonCall' * op':' *
+    C2'Invoke' * op':' *
         ((C2'String' * name_simple) / self.handle_string) * V'args'
 
   -- modified
@@ -483,7 +483,7 @@ setmetatable(M, {__call = function()
   self.handle_indexshort =
       function(pos, op, ...) return generic_handle(pos, "Index", ...) end
   self.handle_call = generic_handle
-  self.handle_coloncall = generic_handle
+  self.handle_invoke = generic_handle
   self.handle_identifier = generic_handle
   self.handle_block = generic_handle
   self.handle_local = generic_handle

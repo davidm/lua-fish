@@ -194,7 +194,7 @@ function funcs.Call(ast)
   return convert(ast[1]) .. '(' .. convert(ast[2]) .. ')'
 end
 
-function funcs.ColonCall(ast)
+function funcs.Invoke(ast)
   return convert(ast[1]) .. ':' .. ast[2][1] ..
     '(' .. convert(ast[3]) .. ')'
 end

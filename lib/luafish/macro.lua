@@ -494,7 +494,7 @@ function M.process_macros(ast, env)
         end
       end
     end
-  elseif ast.tag == 'ColonCall' then  
+  elseif ast.tag == 'Invoke' then  
     -- note: this is like an Index followed by a Call with "self"
     local obj_ast = resolve(env, ast[1])
 
