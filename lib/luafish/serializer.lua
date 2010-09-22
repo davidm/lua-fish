@@ -65,7 +65,7 @@ function funcs.If(ast)
   return table.concat(ts, '')
 end
 
-function funcs.For(ast)
+function funcs.Fornum(ast)
   return 'for ' .. convert(ast[1]) .. ' = ' ..
          convert(ast[2]) .. ',' .. convert(ast[3]) ..
          (#ast == 5 and convert(ast[4]) or '') ..

@@ -257,9 +257,9 @@ local function build_grammar(self)
         (keyword'else' * V'block')^-1 *
         keyword'end')
         / self.handle_if +
-    (C2'For' * keyword'for' * name * op'=' * V'exp' * op',' * V'exp' *
+    (C2'Fornum' * keyword'for' * name * op'=' * V'exp' * op',' * V'exp' *
         (op',' * V'exp')^-1 * keyword'do' * V'block' * keyword'end')
-        / self.handle_for + 
+        / self.handle_fornum + 
     (C2'Forin' * keyword'for' * V'namelist' * keyword'in' * V'explist' *
          keyword'do' * V'block' * keyword'end')
          / self.handle_forin +
@@ -494,7 +494,7 @@ setmetatable(M, {__call = function()
   self.handle_while = generic_handle
   self.handle_repeat = generic_handle
   self.handle_if = generic_handle
-  self.handle_for = generic_handle
+  self.handle_fornum = generic_handle
   self.handle_forin = generic_handle
   self.handle_explist = generic_handle
   self.handle_varlist = generic_handle

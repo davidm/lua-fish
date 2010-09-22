@@ -644,7 +644,7 @@ local function helper(ast, scope, last_local)
         end
       end
     end
-  elseif ast.tag == 'For' or ast.tag == 'Forin' then
+  elseif ast.tag == 'Fornum' or ast.tag == 'Forin' then
     local var_ast = ast[1]
     local var_name = var_ast[1]
     childscope = shallowcopytable(scope)
