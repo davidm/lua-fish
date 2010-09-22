@@ -1,14 +1,15 @@
 =NAME
 
-LuaFish 0.7 (2007-12-15)
+LuaFish 0.7.1 (2010-09-21)
 
 =DESCRIPTION
 
 This distribution provides various Lua modules for parsing Lua 5.1
 source code, manipulating abstract syntax trees (AST), and serializing
-ASTs back to Lua code.  There is some experimental support for
-applying LISP-ish style macros, doing static type checking, and
-compiling Lua to C.
+ASTs back to Lua code, implemented via Lpeg.
+
+There is also some experimental support for applying LISP-ish style
+macros, doing static type checking, and compiling Lua to C.
 
 =STATUS
 
@@ -17,22 +18,25 @@ WARNING!
 The parsing, AST manipulation, and serialization is fairly robust
 but could still have errors, and the interface is subject to change.
 
+The AST format should be brought in sync with the Metalua AST
+(minus lineinfo which likely will be changed/moved in Metalua).
+
 The macros, static type checking, and Lua->C compiler are
 incomplete or broken in various areas and should be considered
-experimental.
+experimental.  LuaInspect [6], which is newer and more actively
+maintained, is suggested instead.
 
-Please report and bugs or bug fixes to the wiki page.
+Please report and bugs or bug fixes to the wiki page or to github.
 
 =TODO
 
 - LuaFish should move closer to the Metalua AST
-  (recommended by Fabien Fleutot)
-  Note: possibly merge this project with Metalua.
+
 - Number numbers in errors are much needed.
 
 =DEPENDENCIES
 
-This require Lua Lpeg [2] (tested on version 0.6/0.7).
+This require Lua Lpeg [2] version >= 0.9.
 
 =INSTALLATION
 
@@ -87,7 +91,7 @@ Running:
 
 =AUTHOR/COPYRIGHT
 
-David Manura. 2007-08.
+David Manura. 2007-2010.
 
 The Lua Peg Parser is licensed under the terms of the MIT license
 reproduced below.  This means that Lua is free software and can be
@@ -97,7 +101,7 @@ For details and rationale, see http://www.lua.org/license.html .
 
 =====================================================================
 
-Copyright (C) 2007 David Manura.
+Copyright (C) 2007-2010 David Manura.
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
@@ -142,3 +146,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [5] LuaGrammar ( http://lua-users.org/wiki/LuaGrammar ) - other
     resources on parsing/lexing Lua's grammar.
+    
+[6] LuaInspect ( http://lua-users.org/wiki/LuaInspect ) - source code analysis.
+

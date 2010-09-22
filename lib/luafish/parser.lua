@@ -2,9 +2,16 @@
 
 local lpeg = require 'lpeg'
 
-local P, R, S, C, Cc, Cp, Ct, Ca, V
-  = lpeg.P, lpeg.R, lpeg.S, lpeg.C, lpeg.Cc,
-    lpeg.Cp, lpeg.Ct, lpeg.Ca, lpeg.V
+local C  = lpeg.C
+local Cc = lpeg.Cc
+local Cf = lpeg.Cf
+local Cg = lpeg.Cg
+local Cp = lpeg.Cp
+local Ct = lpeg.Ct
+local P  = lpeg.P
+local R  = lpeg.R
+local S  = lpeg.S
+local V  = lpeg.V
 
 local M = {}; M.__index = M
 
@@ -33,7 +40,9 @@ M.ASTNode = ASTNode
 
 --debug
 local function short(s,i)
-  return "[" .. s:sub(i, i+40) .. "...]"
+  local small = s:sub(i, i+40)
+  if i+40 < #s then small = small .. "..." end
+  return small
 end
 local debug = P(function(s,i)print("DEBUG", short(s,i)) return i end)
 
@@ -212,18 +221,17 @@ local function build_grammar(self)
     end
   end
 
-  local function handle_unrecognized(s, i)
-    local nline, ncol = M.get_linecol(s, i)
-    error(string.format("At line %d col %d unrecognized [%s]",
-                        nline, ncol, short(s,i)))
+  local function handle_unrecognized(i)
+    error(function(s)
+      local nline, ncol = M.get_linecol(s, i)
+      return string.format("At line %d col %d unrecognized [%s]", nline, ncol, short(s,i))
+    end)
   end
 
   -- modified
   grammar.chunk = (
-    V'block' *
-    (ws^-1 * #P(1) *
-     P(handle_unrecognized))^-1
-) / function(t) return ASTNode(t) end
+    V'block' * ws^-1 * ((Cp() * P(1)) / handle_unrecognized)^-1
+  ) / function(t) return ASTNode(t) end
 
   -- modified
   grammar.block = (
@@ -287,22 +295,22 @@ local function build_grammar(self)
   --modified
   -- note: exp was left-recursive in binop.
   grammar.exp =
-    Ca(V'orfactor' * (C2'Or' * keyword'or' * V'orfactor' / binop_helper)^0)
+    Cf(Cg(V'orfactor') * Cg(C2'Or' * keyword'or' * V'orfactor')^0, binop_helper)
 
   grammar.orfactor =
-    Ca(V'andfactor' * (C2'And' * keyword'and' * V'andfactor' / binop_helper)^0)
+    Cf(Cg(V'andfactor') * Cg(C2'And' * keyword'and' * V'andfactor')^0, binop_helper)
 
   grammar.andfactor =
-    Ca(V'comparefactor' * (V'compareop' * V'comparefactor' / binop_helper)^0)
+    Cf(Cg(V'comparefactor') * Cg(V'compareop' * V'comparefactor')^0, binop_helper)
 
   grammar.comparefactor =
     (V'concatfactor' * (Cp() * cop'..' * V'concatfactor')^0) / raccum
 
   grammar.concatfactor =
-    Ca(V'sumfactor' * (V'sumop' * V'sumfactor' / binop_helper)^-0)
+    Cf(Cg(V'sumfactor') * Cg(V'sumop' * V'sumfactor')^-0, binop_helper)
 
   grammar.sumfactor =
-    Ca(V'productfactor' * (V'productop' * V'productfactor' / binop_helper)^0)
+    Cf(Cg(V'productfactor') * Cg(V'productop' * V'productfactor')^0, binop_helper)
 
   grammar.productfactor =
     (V'unaryop' * V'productfactor') / self.handle_unop +
@@ -347,7 +355,7 @@ local function build_grammar(self)
     (C2'String' * ws^-1 * C(luastring)) / self.handle_string +
     (C2'Dots' * op'...') / self.handle_dots +
     V'function' +
-    Ca(V'prefixexp' * (V'postfix' / postfix_helper)^0) +   -- modified
+    Cf(Cg(V'prefixexp') * Cg(V'postfix')^0, postfix_helper) +   -- modified
     V'tableconstructor'
 
   --modified
@@ -381,7 +389,7 @@ local function build_grammar(self)
 
   -- modified (note: was left recusive)
   grammar.functioncall =
-    (Ca(V'prefixexp' * (V'postfix' / postfix_helper * #V'postfix')^0) * V'postfixcall') / postfix_helper
+    (Cf(Cg(V'prefixexp') * Cg(V'postfix' * #V'postfix')^0, postfix_helper) * V'postfixcall') / postfix_helper
 
   grammar.args = (
     op'(' * (grammar.explist + C2'ExpList' / self.handle_explist) * op')' + -- improve style?
@@ -535,7 +543,14 @@ function M:parse(o)
 
   self.s = text
   
-  local result = lpeg.match(self.grammar, text)
+  local ok, result = pcall(lpeg.match, self.grammar, text)
+  if not ok then
+    if type(result) == 'function' then
+      error(result(text))
+    else
+      error(result)
+    end
+  end
 
   -- add line numbers/columns
   local ipos, nline, ncol = 0
@@ -588,7 +603,7 @@ overridden, but they currently build an abstract syntax tree (AST).
 
 This depends on
   * LPeg http://www.inf.puc-rio.br/~roberto/lpeg.html
-    (tested on version 0.7)
+    (version >= 0.9)
 
 =STATUS
 
