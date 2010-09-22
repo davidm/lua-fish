@@ -1,0 +1,52 @@
+0.7 - 2007-12-15
+  Make AST more similar to Metalua:
+    luafish.parser - convert AST structure from {tag, ...}
+                     to {tag=tag, ...}
+    luafish.parser - change AST tag names from all caps (WHILE) to
+                     mixed-case (While)
+    luafish.parser - change operator ASTs from {'+', ...} to
+                     {tag='Op', '+', ...}
+  New bin/luafish.lua - front-end.
+
+0.6 - 2007-12-14
+  Fix REPEAT in serializer.lua.  Reported by Ketmar Dark.
+  New LuaFish.lua2c - very-very preliminary Lua->C compiler.
+
+0.5 - 2007-08-28
+  New luafishcheck.lua program - does code validation
+  In luafish.type - add line/columns (nline/ncol) attributes to AST nodes.
+  In luafish.macro - support nline/ncol attributes
+  In luafish.macro - fix handling binary op with non-lexical operand.
+  In luafish.serializer - fix elseif handling.
+  In luafish.macro - fix handling of FUNCTION param scope.
+
+0.4 - 2007-08-25
+  New static type checking capabilities (see examples/type_usage2.lua)
+  New luafish.math and placeholder luafish.string libraries.
+  In luafish.macro, new static REQUIRE macro.
+  In luafish.macro, new TNumber and TString static types.
+  In luafish.type, new static TYPED macro.
+  In luafish.macro, many process_macro updates for use with
+    new examples/type_usage2.lua
+  Fix unary negatation is now 'NEG' AST node not '-' (subtraction)
+  Fix luafish.serializer RETURN
+
+0.3 - 2007-08-23
+  New macro style. see examples/module_usage2.lua and luafish.staticmodule.
+  LuaFish.macro.process_macros different, evaluating children
+    then parents in macro calls and triggering compile-time
+    metamethod calls.
+  In LuaFish.macro.loadstring, add chunkname argument support
+  Fix NOT handling in LuaFish.serialize.
+  Fix VARARG handling in LuaFish.parser.
+  Fix LuaFish.macro.require return value on non-first call
+
+0.2 - 2007-08-20
+  Fix FUNCNAME handling in LuaFish.parser and LuaFish.serialize.
+  Fix COLONCALL handling in LuaFish.serialize.
+  Fix LOCAL handling in LuaFish.serialize.
+  Add ONCOMPILE macro to LuaFish.macro.
+  Add LuaFish.macro.require.
+
+0.1 - 2007-08-18
+  initial version

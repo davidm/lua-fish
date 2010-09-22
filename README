@@ -1,0 +1,144 @@
+=NAME
+
+LuaFish 0.7 (2007-12-15)
+
+=DESCRIPTION
+
+This distribution provides various Lua modules for parsing Lua 5.1
+source code, manipulating abstract syntax trees (AST), and serializing
+ASTs back to Lua code.  There is some experimental support for
+applying LISP-ish style macros, doing static type checking, and
+compiling Lua to C.
+
+=STATUS
+
+WARNING!
+
+The parsing, AST manipulation, and serialization is fairly robust
+but could still have errors, and the interface is subject to change.
+
+The macros, static type checking, and Lua->C compiler are
+incomplete or broken in various areas and should be considered
+experimental.
+
+Please report and bugs or bug fixes to the wiki page.
+
+=TODO
+
+- LuaFish should move closer to the Metalua AST
+  (recommended by Fabien Fleutot)
+  Note: possibly merge this project with Metalua.
+- Number numbers in errors are much needed.
+
+=DEPENDENCIES
+
+This require Lua Lpeg [2] (tested on version 0.6/0.7).
+
+=INSTALLATION
+
+Just add the "lib" directory to your LUA_PATH.
+
+To run the examples, add the examples directory to Lua_PATH too.
+
+=MODULES
+
+This distribution comes with a number of modules.  You might
+only need some of these modules.
+
+* luafish.parser
+    parses Lua source code into an abstract syntax tree (AST).
+* luafish.serializer
+    converts an abstract syntax tree back into Lua source code.
+* luafish.macro
+    basic macro support, including basic static type checking
+    support
+* luafish.lua2c
+    Compiles Lua to C.  a prototype that is very-very experimental
+    and makes many assumptions.
+
+=EXAMPLES
+
+* type_usage.lua - illustrates static type checking in Lua via macros.
+* type_usage2.lua - illustrates static type checking, improved format.
+* module_usage.lua - illustrates static module import and
+                     checking method names at compile time
+* module_usage2.lua - another macro style for modules.
+
+Running:
+
+The examples use macros and must be run specially do that the macros
+get processed.  An example invoking type_usage2 is below:
+
+  export LUA_PATH='lib/?.lua;examples/?.lua;?.lua'
+  lua bin/luafish.lua examples/type_usage2.lua
+
+To display the AST of a file,
+
+  lua bin/luafish.lua -a examples/type_usage2.lua
+
+=TESTS
+
+The test suite is tall.lua.
+
+Running:
+
+  export LUA_PATH='../lib/?.lua;?.lua'
+  lua test/tall.lua
+
+=AUTHOR/COPYRIGHT
+
+David Manura. 2007-08.
+
+The Lua Peg Parser is licensed under the terms of the MIT license
+reproduced below.  This means that Lua is free software and can be
+used for both academic and commercial purposes at absolutely no cost.
+
+For details and rationale, see http://www.lua.org/license.html .
+
+=====================================================================
+
+Copyright (C) 2007 David Manura.
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+======================================================================
+
+=SEE ALSO
+
+[1] Metalua ( http://luaforge.net/projects/metalua/ ) is similar
+    in application to this project but uses "gg" rather than LPeg for
+    its parser.  Metalua compiles to bytecode, while this project compiles
+    down to Lua source code only.  Metalua has existed longer and
+    is currently more mature. The two projects provide somewhat
+    different approaches.
+
+[2] Lpeg ( http://www.inf.puc-rio.br/~roberto/lpeg.html ) - A parsing
+    expression grammar (PEG) pattern matching library for Lua.
+    It is used by this project.
+
+[3] Cheese ( http://luaforge.net/projects/cheese/ ) - Another, earlier,
+    parsing expression grammar (PEG) pattern matching library for Lua.
+    Implemented in Pure Lua.  Includes a Lua parser.
+
+[4] LuaParse ( http://luaforge.net/projects/luaparse/ ) - another
+    Lua parser, written in pure Lua.
+
+[5] LuaGrammar ( http://lua-users.org/wiki/LuaGrammar ) - other
+    resources on parsing/lexing Lua's grammar.
