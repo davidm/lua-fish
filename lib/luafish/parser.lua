@@ -363,7 +363,7 @@ local function build_grammar(self)
   --modified
   grammar.prefixexp =
     name +
-    (C2'Parens' * op'(' * V'exp' * op')') / self.handle_parens
+    (C2'Paren' * op'(' * V'exp' * op')') / self.handle_paren
 
   --modified
   grammar.postfixcall =
@@ -477,7 +477,7 @@ setmetatable(M, {__call = function()
   self.handle_dots = generic_handle
   self.handle_binop = function(pos, ...) return generic_handle(pos, 'Op', ...) end
   self.handle_unop = function(pos, ...) return generic_handle(pos, 'Op', ...) end
-  self.handle_parens = generic_handle
+  self.handle_paren = generic_handle
   self.handle_function = generic_handle
   self.handle_index = generic_handle
   self.handle_indexshort =

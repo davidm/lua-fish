@@ -558,7 +558,7 @@ function M.process_macros(ast, env)
         end
       end
     end
-  elseif ast.tag == 'Parens' then
+  elseif ast.tag == 'Paren' then
     ast.stype = ast[1].stype
   elseif ast.tag == 'Local' then
     local vals_ast = ast[2]

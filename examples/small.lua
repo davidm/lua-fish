@@ -70,7 +70,7 @@ ERROR:  expected two arguments
 static __mul    [TSquare Class] table: 0127EE68
 ERROR:  first op must be TSquare
 static __index  [TSquare Class] area
-static call     {"Parens",{"*",{"Id","m"},{"Number",2}}}        {"Number",1}
+static call     {"Paren",{"*",{"Id","m"},{"Number",2}}}        {"Number",1}
 ERROR:  expected zero arguments
 DEBUG:main:end compiletime
 DEBUG:main:begin runtime

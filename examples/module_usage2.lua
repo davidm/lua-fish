@@ -94,7 +94,7 @@ ERROR:  expected two arguments
 static __mul    [TSquare Class] table: 01286B48
 ERROR:  first op must be TSquare
 static __index  [TSquare Class] area
-static call     {"Parens",{"*",{"Id","m"},{"Number",2}}}        {"Number",1}
+static call     {"Paren",{"*",{"Id","m"},{"Number",2}}}        {"Number",1}
 ERROR:  expected zero arguments
 static __mul    [TSquare Class] table: 012879F0
 ERROR:  first op must be TSquare

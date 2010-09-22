@@ -3,6 +3,7 @@
     ColonCall -> Invoke
     For -> Fornum
     Assign -> Set
+    Parens -> Paren
 
 0.7.2 - 2010-09-21
   Upgraded to LPeg 0.9

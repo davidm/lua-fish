@@ -186,7 +186,7 @@ function funcs.Op(ast)
   else assert(false) end
 end
 
-function funcs.Parens(ast)
+function funcs.Paren(ast)
   return '(' .. convert(ast[1]) .. ')'
 end
 
