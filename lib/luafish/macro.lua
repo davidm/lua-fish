@@ -333,7 +333,7 @@ end
 -- 
 --[[UNUSED
 local function macro_SETTYPE(ast)
-  --print("Assign", ast)
+  --print("Set", ast)
   if #ast ~= 2 then error("expected two arguments", 2) end
   local id_ast, type_ast = ast[1], ast[2]
 
@@ -572,7 +572,7 @@ function M.process_macros(ast, env)
         end
       end
     end
-  elseif ast.tag == 'Assign' then
+  elseif ast.tag == 'Set' then
     local names_ast, vals_ast = ast[1], ast[2]
     for i=1,#vals_ast do
       local name_ast = resolve(env, names_ast[i])

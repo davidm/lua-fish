@@ -16,7 +16,7 @@ function funcs.Block(ast)
   return table.concat(ts, '\n')
 end
 
-function funcs.Assign(ast)
+function funcs.Set(ast)
   local cnames = {}
   local cvalues = {}
   local names, values = ast[1], ast[2]

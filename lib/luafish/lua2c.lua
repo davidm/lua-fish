@@ -28,7 +28,7 @@ function f.ExpList(ast)
   return to_c(ast[1])
 end
 
-function f.Assign(ast)
+function f.Set(ast)
   local s = ''
   local names_ast,vals_ast = ast[1],ast[2]
   for i=1,#names_ast do

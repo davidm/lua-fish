@@ -242,8 +242,8 @@ local function build_grammar(self)
   ) / self.handle_block
 
   grammar.stat = (
-    (C2'Assign' * V'varlist' * op'=' * V'explist')
-        / self.handle_assign +
+    (C2'Set' * V'varlist' * op'=' * V'explist')
+        / self.handle_set +
     V'functioncall' +
     (C2'Do' * keyword'do' * V'block' * keyword'end')
         / self.handle_do +
@@ -489,7 +489,7 @@ setmetatable(M, {__call = function()
   self.handle_local = generic_handle
   self.handle_localfunctiondef = generic_handle
   self.handle_functiondef = generic_handle
-  self.handle_assign = generic_handle
+  self.handle_set = generic_handle
   self.handle_do = generic_handle
   self.handle_while = generic_handle
   self.handle_repeat = generic_handle
