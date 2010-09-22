@@ -170,6 +170,8 @@ function M.update_linecol(s, i, i_last, nline, ncol)
   return i, nline, ncol
 end
 
+local function emptyfunction() end
+local function Cz(p) return p / emptyfunction end -- ignore captures of pattern p
 
 local function build_grammar(self)
   local grammar = {'chunk'}
@@ -381,15 +383,15 @@ local function build_grammar(self)
 
   --modified
   grammar.endcall =
-    (V'postfix' * #V'postfix')^0 * V'postfixcall'
+    (V'postfix' * Cz(#V'postfix'))^0 * V'postfixcall'
 
   --modified
   grammar.endindex =
-    (V'postfix' * #V'postfix')^0 * V'postfixindex'
+    (V'postfix' * Cz(#V'postfix'))^0 * V'postfixindex'
 
   -- modified (note: was left recusive)
   grammar.functioncall =
-    (Cf(Cg(V'prefixexp') * Cg(V'postfix' * #V'postfix')^0, postfix_helper) * V'postfixcall') / postfix_helper
+    (Cf(Cg(V'prefixexp') * Cg(V'postfix' * Cz(#V'postfix'))^0, postfix_helper) * V'postfixcall') / postfix_helper
 
   grammar.args = (
     op'(' * (grammar.explist + C2'ExpList' / self.handle_explist) * op')' + -- improve style?
